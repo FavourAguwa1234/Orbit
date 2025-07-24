@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orbit is Launching Soon</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @keyframes float1 { 0%{transform:translateY(0)} 50%{transform:translateY(-20px)} 100%{transform:translateY(0)} }
+    @keyframes float2 { 0%{transform:translateX(0)} 50%{transform:translateX(20px)} 100%{transform:translateX(0)} }
+    @keyframes float3 { 0%{transform:translateY(0)} 50%{transform:translateY(-15px)} 100%{transform:translateY(0)} }
+    @keyframes float4 { 0%{transform:translateX(0)} 50%{transform:translateX(-20px)} 100%{transform:translateX(0)} }
+    @keyframes float5 { 0%{transform:translateY(0)} 50%{transform:translateY(-10px)} 100%{transform:translateY(0)} }
+    @keyframes float6 { 0%{transform:translateX(0)} 50%{transform:translateX(15px)} 100%{transform:translateX(0)} }
+
+    .animate-float1 { animation: float1 6s ease-in-out infinite; }
+    .animate-float2 { animation: float2 8s ease-in-out infinite; }
+    .animate-float3 { animation: float3 5s ease-in-out infinite; }
+    .animate-float4 { animation: float4 7s ease-in-out infinite; }
+    .animate-float5 { animation: float5 9s ease-in-out infinite; }
+    .animate-float6 { animation: float6 10s ease-in-out infinite; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen flex flex-col justify-center items-center text-center px-4 sm:px-6 overflow-hidden bg-[#0f172a] text-[#f8fafc]">
+
+  <!-- FLOATING CHAT BUBBLES BG -->
+  <div class="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div class="absolute top-10 left-4 sm:left-10 text-xs sm:text-sm bg-white text-[#0f172a] px-2 sm:px-3 py-1 sm:py-2 rounded-full shadow animate-float1">Hey!</div>
+    <div class="absolute top-32 left-1/2 text-xs sm:text-sm bg-[#9333ea] text-white px-3 sm:px-4 py-1 sm:py-2 rounded-full shadow animate-float2">Orbit</div>
+    <div class="absolute bottom-20 right-4 sm:right-12 text-xs sm:text-sm bg-white text-[#0f172a] px-2 sm:px-3 py-1 sm:py-2 rounded-full shadow animate-float3">Typing...</div>
+    <div class="absolute top-1/3 right-8 sm:right-20 text-xs sm:text-sm bg-[#9333ea] text-white px-2 sm:px-3 py-1 sm:py-2 rounded-full shadow animate-float4">👋</div>
+    <div class="absolute bottom-10 left-1/4 text-xs sm:text-sm bg-white text-[#0f172a] px-3 sm:px-4 py-1 sm:py-2 rounded-full shadow animate-float5">You there?</div>
+    <div class="absolute top-1/4 right-1/4 text-xs sm:text-sm bg-[#9333ea] text-white px-2 sm:px-3 py-1 sm:py-2 rounded-full shadow animate-float6">Seen</div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="relative z-10 w-full max-w-2xl mx-auto px-4 sm:px-6 py-12">
+    <!-- Orbit Logo -->
+    <div class="flex justify-center">
+      <img src="logo.png" alt="Orbit Logo" class="w-24 sm:w-28 md:w-36 mb-6" />
+    </div>
+
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-[#9333ea] mb-3">Orbit is Launching Soon</h1>
+    <p class="text-[#94a3b8] text-base sm:text-lg mb-8 max-w-md mx-auto">We're preparing something exciting for you. Stay tuned! 🚀</p>
+
+    <!-- Countdown -->
+    <div class="text-center mb-8">
+      <h2 class="text-xl sm:text-2xl font-semibold text-[#9333ea] mb-4">Launching In:</h2>
+      <div id="countdown" class="flex justify-center gap-4 sm:gap-6 text-base sm:text-xl font-mono">
+        <div class="flex flex-col items-center">
+          <span id="days" class="text-[#9333ea] text-2xl sm:text-3xl font-bold">00</span>
+          <span class="text-xs sm:text-sm text-[#94a3b8]">Days</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <span id="hours" class="text-[#9333ea] text-2xl sm:text-3xl font-bold">00</span>
+          <span class="text-xs sm:text-sm text-[#94a3b8]">Hours</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <span id="minutes" class="text-[#9333ea] text-2xl sm:text-3xl font-bold">00</span>
+          <span class="text-xs sm:text-sm text-[#94a3b8]">Minutes</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <span id="seconds" class="text-[#9333ea] text-2xl sm:text-3xl font-bold">00</span>
+          <span class="text-xs sm:text-sm text-[#94a3b8]">Seconds</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-10 text-xs sm:text-sm text-[#64748b]">&copy; <span id="year"></span> Orbit. All rights reserved.</p>
+  </div>
+
+  <!-- Countdown & Year Script -->
+  <script>
+    const countdown = () => {
+      const endDate = new Date();
+      endDate.setMonth(endDate.getMonth() + 1); // 1 month from now
+
+      const timer = () => {
+        const now = new Date().getTime();
+        const distance = endDate - now;
+
+        if (distance < 0) return;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").textContent = String(days).padStart(2, '0');
+        document.getElementById("hours").textContent = String(hours).padStart(2, '0');
+        document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
+        document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+      };
+
+      timer();
+      setInterval(timer, 1000);
+    };
+
+    countdown();
+
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
